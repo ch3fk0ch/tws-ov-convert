@@ -24,6 +24,25 @@ Copy config.json.example to config.json and adjust as needed.
 - Use always "/" as path separator
 - Keep always one multiplier entry
 
+### Adding new multipliers
+```
+{
+	"input_path":"c:/trades",
+	"output_path":"c:/trades_output",
+	"output_prefix":"ov_",
+	"multipliers":[
+		{
+			"underlying":"ES",
+			"multiplier":50.0
+		},
+		{
+			"underlying":"BLA",
+			"multiplier":25.0
+		}
+	]
+}
+```
+
 ## Expected input file name
 Currently the tool expect the default filename from TWS which is, "trades.YYYYMMdd.csv".
 
