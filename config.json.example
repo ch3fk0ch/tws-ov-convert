@@ -1,0 +1,11 @@
+{
+	"input_path":"c:/trades/",
+	"output_path":"c:/trades_output/",
+	"output_prefix":"ov_",
+	"multipliers":[
+		{
+			"underlying":"ES",
+			"multiplier":50.0
+		}
+	]
+}
