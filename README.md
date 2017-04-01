@@ -6,9 +6,9 @@ This tool helps to convert exported tradelog files from Interactive Brokers TWS 
 If a date is specified the tool will look for "trades.20170331.csv". If not it will use the current date.
 
 ```
-tws-ov-convert
-tws-ov-convert -d 20170331
-tws-ov convert -date 20170331
+tws-ov-convert.exe
+tws-ov-convert.exe -d 20170331
+tws-ov-convert.exe -date 20170331
 ```
 ## Setup optionvue
 Follow the instructions at http://help.capitaldiscussions.com/article/how-to-import-trades-from-interactive-brokers-to-optionvue to setup the optionvue importer.
