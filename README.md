@@ -1,6 +1,15 @@
 # tws-ov-convert
 This tool helps to convert exported tradelog files from Interactive Brokers TWS into optionvue format.
 
+## Run
+
+If a date is specified the tool will look for "trades.20170331.csv". If not it will use the current date.
+
+```
+tws-ov-convert
+tws-ov-convert -d 20170331
+tws-ov convert -date 20170331
+```
 ## Setup optionvue
 Follow the instructions at http://help.capitaldiscussions.com/article/how-to-import-trades-from-interactive-brokers-to-optionvue to setup the optionvue importer.
 
@@ -20,4 +29,5 @@ Currently the tool expect the default filename from TWS which is, "trades.YYYYMM
 
 ## Multiplier
 Per default the application uses 100. I added 50 for ES futures to the config file. The multipliers array can be extended to support other Underlyings.
+
 

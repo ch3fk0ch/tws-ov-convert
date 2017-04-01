@@ -51,8 +51,12 @@ type Configuration struct {
 
 var multiplierMap map[string]float64
 var configuration Configuration
+var flagDate string
 
-var flagDate = flag.String("date", "", "tradelog export file date YYYYMMdd, default today")
+func init() {
+	flag.StringVar(&flagDate, "date", "", "tradelog export file date YYYYMMdd, default today")
+	flag.StringVar(&flagDate, "d", "", "tradelog export file date YYYYMMdd, default today")
+}
 
 func main() {
 	flag.Parse()
@@ -75,11 +79,11 @@ func main() {
 	t := time.Now()
 	fileDate := t.Format("20060102")
 
-	if len(*flagDate) > 0 {
-		fileDate = *flagDate
+	if len(flagDate) > 0 {
+		fileDate = flagDate
 	}
 
-	inputFile := filepath.FromSlash(configuration.InputPath) + "trades." + fileDate + ".csv"
+	inputFile := filepath.FromSlash(configuration.InputPath+"/") + "trades." + fileDate + ".csv"
 
 	tradeFile, err := os.Open(inputFile)
 	if err != nil {
@@ -137,7 +141,8 @@ func main() {
 	}
 
 	for k, v := range TradeOutputMap {
-		outputFile := filepath.FromSlash(configuration.OutputPath) + configuration.OutputPrefix + k + "_trades." + fileDate + ".csv"
+		outputFile := filepath.FromSlash(configuration.OutputPath+"/") +
+			configuration.OutputPrefix + k + "_trades." + fileDate + ".csv"
 
 		out, err := os.OpenFile(outputFile, os.O_RDWR|os.O_CREATE, os.ModePerm)
 		if err != nil {
