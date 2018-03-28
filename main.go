@@ -120,6 +120,11 @@ func main() {
 		var bs string
 		var nc float64
 
+		price := t.Price
+		if t.Underlying == "EUR" {
+			price *= 100
+		}
+
 		if t.Action == "SLD" {
 			qu = -1
 			bs = "SELL"
@@ -138,7 +143,7 @@ func main() {
 		o.AssetClass = t.Security
 		o.Symbol = t.Symbol
 		o.Quantity = strconv.FormatInt(qu*t.Quantity, 10)
-		o.TradePrice = strconv.FormatFloat(t.Price, 'f', 2, 64)
+		o.TradePrice = strconv.FormatFloat(price, 'f', 2, 64)
 		o.IBCommission = strconv.FormatFloat(t.Commission*-1, 'f', 2, 64)
 		o.NetCash = strconv.FormatFloat((float64(t.Quantity)*m*t.Price*nc)-t.Commission, 'f', 2, 64)
 
