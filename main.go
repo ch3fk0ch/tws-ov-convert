@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/gocarina/gocsv"
 	"os"
 	"path/filepath"
 	"strconv"
-	"strings"
 	"time"
+
+	"github.com/gocarina/gocsv"
 )
 
 type Trade struct {
@@ -28,12 +28,13 @@ type Trade struct {
 type TradeOutput struct {
 	TradeDate    string `csv:"TradeDate"`
 	TradeTime    string `csv:"TradeTime"`
-	BuySell      string `csv:"BuySell"`
+	BuySell      string `csv:"Buy/Sell"`
 	AssetClass   string `csv:"AssetClass"`
 	Symbol       string `csv:"Symbol"`
 	Quantity     string `csv:"Quantity"`
 	TradePrice   string `csv:"TradePrice"`
 	IBCommission string `csv:"IBCommission"`
+	Underlying   string `csv:"UnderlyingSymbol"`
 	NetCash      string `csv:"NetCash"`
 }
 
@@ -137,8 +138,18 @@ func main() {
 
 		o := TradeOutput{}
 
-		o.TradeDate = t.Date
-		o.TradeTime = strings.Replace(t.Time, ":", "", -1)
+		layout := "20060102 15:04:05 MST"
+
+		timeString := t.Date + " " + t.Time + " UTC"
+
+		pt, _ := time.Parse(layout, timeString)
+
+		loc, _ := time.LoadLocation("America/Los_Angeles")
+		pt = pt.In(loc)
+
+		o.TradeDate = pt.Format("20060102")
+		o.TradeTime = pt.Format("150405")
+
 		o.BuySell = bs
 		o.AssetClass = t.Security
 		o.Symbol = t.Symbol
@@ -146,6 +157,7 @@ func main() {
 		o.TradePrice = strconv.FormatFloat(price, 'f', 2, 64)
 		o.IBCommission = strconv.FormatFloat(t.Commission*-1, 'f', 2, 64)
 		o.NetCash = strconv.FormatFloat((float64(t.Quantity)*m*t.Price*nc)-t.Commission, 'f', 2, 64)
+		o.Underlying = t.Underlying
 
 		TradeOutputMap[t.Account] = append(TradeOutputMap[t.Account], o)
 
